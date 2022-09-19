@@ -1,5 +1,6 @@
 package model
 
+// BasicTitle struct that represents data in csv file
 type BasicTitle struct {
 	Tconst         string `csv:"tconst"`
 	TitleType      string `csv:"titleType"`

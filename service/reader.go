@@ -9,13 +9,21 @@ import (
 	"testtask/model"
 )
 
-type CSVReader struct {
-	fileName  string
-	delimiter rune
-	outChan   chan *model.BasicTitle
-}
+type (
+	// Reader interface for reading data from source
+	Reader interface {
+		Read(ctx context.Context) error
+	}
+	// CSVReader implements method of Reader interface for reading csv file.
+	CSVReader struct {
+		fileName  string
+		delimiter rune
+		outChan   chan *model.BasicTitle
+	}
+)
 
-func NewReader(filename string, outChan chan *model.BasicTitle) *CSVReader {
+// NewCSVReader returns new instance of CSVReader.
+func NewCSVReader(filename string, outChan chan *model.BasicTitle) Reader {
 	return &CSVReader{
 		fileName:  filename,
 		outChan:   outChan,
@@ -23,6 +31,7 @@ func NewReader(filename string, outChan chan *model.BasicTitle) *CSVReader {
 	}
 }
 
+// Read reads data from csv file.
 func (r *CSVReader) Read(ctx context.Context) error {
 	file, err := os.Open(r.fileName)
 	if err != nil {

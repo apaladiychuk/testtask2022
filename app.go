@@ -31,7 +31,7 @@ func Run(ctx *cli.Context, cfg *Config) error {
 		worker := service.NewWorker(i, workContext, cfg.Filter, inCh, outCh, &wg)
 		go worker.Start()
 	}
-	r := service.NewReader(cfg.FilePath, inCh)
+	r := service.NewCSVReader(cfg.FilePath, inCh)
 	go result(workContext, outCh)
 	if err := r.Read(workContext); err != nil {
 		fmt.Println(err.Error())
@@ -41,6 +41,7 @@ func Run(ctx *cli.Context, cfg *Config) error {
 	return nil
 }
 
+// temporary function for display data.
 func result(ctx context.Context, outCh chan *model.BasicTitle) {
 	fmt.Println("IMDB_ID\t\t|\tTitle\t\t|\t Plot")
 	for {

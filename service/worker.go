@@ -8,6 +8,7 @@ import (
 	"testtask/model"
 )
 
+// Worker is struct that implement processing data.
 type Worker struct {
 	id     int
 	ctx    context.Context
@@ -17,6 +18,7 @@ type Worker struct {
 	wg     *sync.WaitGroup
 }
 
+// NewWorker return new instance of Worker.
 func NewWorker(id int, ctx context.Context, filter *model.Filter, inCh, outCh chan *model.BasicTitle, wg *sync.WaitGroup) *Worker {
 	return &Worker{
 		id:     id,
@@ -28,6 +30,7 @@ func NewWorker(id int, ctx context.Context, filter *model.Filter, inCh, outCh ch
 	}
 }
 
+// Start  runs worker queue , wait data from channel filter it and send output to result channel
 func (w *Worker) Start() {
 	w.wg.Add(1)
 	defer w.wg.Done()
